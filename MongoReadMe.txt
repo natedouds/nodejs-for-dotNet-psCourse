@@ -1,0 +1,1 @@
+﻿Run mongo-start, then browse to http://localhost:28017/
