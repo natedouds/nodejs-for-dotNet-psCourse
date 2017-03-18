@@ -1,6 +1,10 @@
 //pass in exports obj
 //handle various request types for home portion of web page
 (function (homeController) {
+    //needed for url encoding
+    var bodyParser = require('body-parser');
+    // create application/x-www-form-urlencoded parser
+    var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 
     //app responds to http verbs using methods
@@ -20,11 +24,35 @@
         //         });
 
         //Vash - razor like syntax
-        app.get("/viewengines/vash", function (req, res) {
+        app.get("/", function (req, res) {
             data.getNoteCategories(function (err, results) {
-                res.render("index.vash", { title: "The Board", error: err, categories: results });
+                res.render("index.vash",
+                {
+                    title: "The Board",
+                    error: err,
+                    categories: results,
+                    newCatError: req.flash("newCatName") //temp way of storing error info
+                });
             });
         });
+
+        //Post for the form
+        app.post("/newCategory", urlencodedParser,
+            function (req, res) {
+                var categoryName = req.body.categoryName;
+                data.createNewCategory(categoryName,
+                    function (err) {
+                        if (err) {
+                            //handle error
+                            console.log(err);
+                            //use connect flash, and we can pass some temp message and show the error
+                            req.flash("newCatName", err);
+                            res.redirect("/");
+                        } else {
+                            res.redirect("/notes/" + categoryName);
+                        }
+                    });
+            });
 
         //generic api example
         app.get("/api/users", function (req, res) {

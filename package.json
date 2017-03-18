@@ -8,10 +8,15 @@
   },
   "author": "Nathan Douds",
   "dependencies": {
+    "body-parser": "^1.17.1",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
     "ejs": "^2.5.6",
     "ejs-locals": "^1.0.2",
     "express": "^4.15.2",
+    "express-session": "^1.15.1",
     "jade": "^1.11.0",
+    "mongodb": "^2.2.25",
     "underscore": "^1.8.3",
     "vash": "^0.12.2"
   },

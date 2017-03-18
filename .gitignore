@@ -38,3 +38,6 @@ jspm_packages
 /.vs
 /.idea
 /public/lib
+
+# Mongo db
+/MongoDb/data
