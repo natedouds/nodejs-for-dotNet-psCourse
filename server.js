@@ -43,4 +43,10 @@ controllers.init(app);
 //create web server
 var server = http.createServer(app);
 
+//listen as web server
 server.listen(3000);
+
+//socket io impl
+var updater = require("./updater");
+//server obj is what socket io will attach to for its messages
+updater.init(server);

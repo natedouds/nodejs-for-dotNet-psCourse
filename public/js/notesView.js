@@ -26,6 +26,22 @@
                     alert(err);
                 });
 
+        //use socket.io
+        var socket = io.connect(); //same server as web page, so no connection needed
+
+        //basic example for pushing something to client
+        //socket.on("showThis", function (msg) {
+        //    alert(msg);
+        //});
+
+        //tell it we're part of this category
+        socket.emit("join category", categoryName);
+
+        socket.on("broadcast note", function (note) {
+            $scope.notes.push(note);
+            $scope.$apply();
+        });
+
         //save new note
         $scope.save = function () {
             $http.post(notesUrl, $scope.newNote)
@@ -35,6 +51,7 @@
                     $scope.notes.push(result.data);
                     //clear the note
                     $scope.newNote = createBlankNote();
+                    socket.emit("newNote", { category: categoryName, note: result.data });
                 }, function (err) {
                     //failure
                 });
