@@ -27,7 +27,7 @@
             if (err) {
                 next(err, null);
             } else {
-                //see if one exists
+                //see if one exists (note: it appears to be case sensitive!)
                 db.notes.find({ name: categoryName })
                     .count(function (err, count) {
                         if (err) {
@@ -51,6 +51,34 @@
                             }
                         }
                     });
+            }
+        });
+    };
+
+    data.getNotes = function (categoryName, next) {
+        database.getDb(function (err, db) {
+            if (err) {
+                next(err);
+            } else {
+                //find one instance, think FirstOrDefault()
+                //this example is for case-insensitive matching
+                db.notes.findOne({ name: { '$regex': categoryName, $options: 'i' } }, next);
+                //this example is for case-sensitive matching
+                //db.notes.findOne({ name: { '$regex': categoryName, $options: 'i' } }, next);
+            }
+        });
+    };
+
+    data.addNote = function (categoryName, noteToInsert, next) {
+        database.getDb(function (err, db) {
+            if (err) {
+                next(err);
+            } else {
+                //even though this is logically an 'insert' i.e. creation of new note
+                //it is the creation of a new object that is INSIDE an existing object
+                //go find the named category, and push into the note collection our new noteToInsert
+                //essentially take the new note and insert it as one of the array that is note inside of the document that is for our category name
+                db.notes.update({name: categoryName}, {$push: {notes: noteToInsert}}, next); //pass the next callback since update wants an error callback
             }
         });
     };

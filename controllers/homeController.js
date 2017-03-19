@@ -2,9 +2,8 @@
 //handle various request types for home portion of web page
 (function (homeController) {
     //needed for url encoding
-    var bodyParser = require('body-parser');
-    // create application/x-www-form-urlencoded parser
-    var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+
 
 
     //app responds to http verbs using methods
@@ -26,6 +25,7 @@
         //Vash - razor like syntax
         app.get("/", function (req, res) {
             data.getNoteCategories(function (err, results) {
+                //render is for returning html
                 res.render("index.vash",
                 {
                     title: "The Board",
@@ -37,7 +37,7 @@
         });
 
         //Post for the form
-        app.post("/newCategory", urlencodedParser,
+        app.post("/newCategory", //urlencodedParser,
             function (req, res) {
                 var categoryName = req.body.categoryName;
                 data.createNewCategory(categoryName,
