@@ -31,7 +31,8 @@
                     title: "The Board",
                     error: err,
                     categories: results,
-                    newCatError: req.flash("newCatName") //temp way of storing error info
+                    newCatError: req.flash("newCatName"), //temp way of storing error info
+                    user: req.user //passport will ensure this is included in each request once authenticated
                 });
             });
         });
@@ -39,7 +40,7 @@
         app.get("/notes/:categoryName",
             function (req, res) {
                 let categoryName = req.params.categoryName;
-                res.render("notes", { title: categoryName });
+                res.render("notes", { title: categoryName, user: req.user });
             });
 
         //Post for the form
