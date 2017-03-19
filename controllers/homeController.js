@@ -36,6 +36,12 @@
             });
         });
 
+        app.get("/notes/:categoryName",
+            function (req, res) {
+                let categoryName = req.params.categoryName;
+                res.render("notes", { title: categoryName });
+            });
+
         //Post for the form
         app.post("/newCategory", //urlencodedParser,
             function (req, res) {
