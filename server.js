@@ -7,20 +7,28 @@ var ejsEngine = require("ejs-locals"); //need instance of ejsLocals
 var flash = require("connect-flash");
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-// var json = require('express-json');
 var bodyParser = require('body-parser');
 
-//vash
-app.set("view engine", "vash");
+//set the public static resource folder
+//__dirname is root directory of node app
+app.use(express.static(__dirname + "/public"));
 
 //opt into services
 app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser());
 app.use(session({ secret: "PluralsightTheBoard" })); //uses cookies
 //flash uses session state, and express and node don't by default
 app.use(flash());
 
-app.use(bodyParser.json());
-app.use(bodyParser());
+//use authentication
+var auth = require("./auth");
+auth.init(app);
+
+//vash
+app.set("view engine", "vash");
+
+
 
 //ejs
 // app.engine("ejs", ejsEngine); //support master pages
@@ -28,10 +36,6 @@ app.use(bodyParser());
 
 //jade
 // app.set("view engine", "jade"); //support the jade view engine
-
-//set the public static resource folder
-//__dirname is root directory of node app
-app.use(express.static(__dirname + "/public"));
 
 //map the routes
 controllers.init(app);

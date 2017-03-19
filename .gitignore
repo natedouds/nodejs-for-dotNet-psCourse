@@ -41,3 +41,6 @@ jspm_packages
 
 # Mongo db
 /MongoDb/data
+
+# ps copies
+/psstuff

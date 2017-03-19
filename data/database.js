@@ -16,9 +16,11 @@
                     if (err) {
                         next(err, null);
                     } else {
+                        //this is essentially where the collections are created
                         theDb = {
                             db: db,
-                            notes: db.collection("notes")
+                            notes: db.collection("notes"),
+                            users: db.collection("users")
                         };
                         next(null, theDb);
                     }

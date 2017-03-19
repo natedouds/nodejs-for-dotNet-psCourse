@@ -78,7 +78,17 @@
                 //it is the creation of a new object that is INSIDE an existing object
                 //go find the named category, and push into the note collection our new noteToInsert
                 //essentially take the new note and insert it as one of the array that is note inside of the document that is for our category name
-                db.notes.update({name: categoryName}, {$push: {notes: noteToInsert}}, next); //pass the next callback since update wants an error callback
+                db.notes.update({ name: categoryName }, { $push: { notes: noteToInsert } }, next); //pass the next callback since update wants an error callback
+            }
+        });
+    };
+
+    data.addUser = function (user, next) {
+        database.getDb(function (err, db) {
+            if (err) {
+                console.log("Failed to seed database: " + err);
+            } else {
+                db.users.insert(user, next);
             }
         });
     };
