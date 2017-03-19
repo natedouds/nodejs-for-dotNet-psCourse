@@ -3,9 +3,11 @@
     notesController.init = function (app) {
 
         let data = require("../data");
+        let auth = require("../auth");
 
         //what you return really determines whether or not it's an API (i.e. we'll return json here)
         app.get("/api/notes/:categoryName",
+            auth.ensureApiAuthenticated,
             function (req, res) {
 
                 let categoryName = req.params.categoryName;
@@ -24,6 +26,7 @@
             });
 
         app.post("/api/notes/:categoryName",
+            auth.ensureApiAuthenticated,
             function (req, res) {
 
                 const categoryName = req.params.categoryName;

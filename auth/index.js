@@ -20,6 +20,25 @@
         });
     }
 
+    //views
+    auth.ensureAuthenticated = function (req, res, next) {
+        if (req.isAuthenticated()) {
+            next();
+        } else {
+            res.redirect("/login");
+        }
+    };
+
+    //apis
+    auth.ensureApiAuthenticated = function (req, res, next) {
+        if (req.isAuthenticated()) {
+            next();
+        } else {
+            //401 because an api consumer is going to want this
+            res.send(401, "Not authorized");
+        }
+    };
+
     auth.init = function (app) {
 
         //setup passport auth

@@ -1,14 +1,10 @@
 //pass in exports obj
 //handle various request types for home portion of web page
 (function (homeController) {
-    //needed for url encoding
-
-
-
-
     //app responds to http verbs using methods
     homeController.init = function (app) {
         var data = require("../data");
+        var auth = require("../auth");
 
         //can use a view engine if returning view -> the below uses views
 
@@ -38,6 +34,8 @@
         });
 
         app.get("/notes/:categoryName",
+            auth.ensureAuthenticated, //don't call but give 'get notes' the function
+            //if it succeeds it will call the below function
             function (req, res) {
                 let categoryName = req.params.categoryName;
                 res.render("notes", { title: categoryName, user: req.user });
